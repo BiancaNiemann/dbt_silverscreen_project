@@ -1,6 +1,7 @@
 version: 2
 
 models:
+  # staging models
   - name: stg_movie_cat
     description: movies released in 2024 and rented out by silverscreen (incl studio, genre and movie title)
     columns:
@@ -41,6 +42,21 @@ models:
         tests:
           - not_null
 
+  # intermediate models
+  - name: int_nj_001
+    description: aggregates the stage level nj_001 table sales at monthly level
+  - name: int_nj_002
+    description: aggregates the stage level nj_002 table sales at monthly level
+  - name: int_nj_003
+    description: aggregates the stage level nj_003 table sales at monthly level 
+  - name: union_nj_tables
+    description: unions all the nj tables together to creat one table showing all revenue
+  - name: int_invoices
+    description: aggregates the invoices to monthly level 
+
+  # mart model
+  - name: final_cost_revenue_table
+    description: final table showing all movie info as well as costs and revenue per movie
 
 sources:
   - name: silverscreen
