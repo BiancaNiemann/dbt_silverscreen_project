@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stg_movie_cat
+    description: movies released in 2024 and rented out by silverscreen (incl studio, genre and movie title)
+    columns:
+      - name: movie_id
+        description: unique identifier for each movie
+        tests:
+          - not_null
+          - unique 
+
+sources:
+  - name: silverscreen
+    database: silverscreen
+    schema: public
+    tables:
+      - name: movie_catalogue
+      - name: invoices
+      - name: nj_001
+      - name: nj_002
+      - name: nj_003
