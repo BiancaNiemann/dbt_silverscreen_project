@@ -9,6 +9,38 @@ models:
         tests:
           - not_null
           - unique 
+      - name: movie_title
+        description: title of the movie
+        tests:
+          - not_null
+  - name: stg_invoices
+    description: invoices for 2024 per location, showing costs to rent film from studio
+    columns:
+      - name: movie_id
+        tests:
+          - not_null
+      - name: location_id
+        tests:
+          - not_null
+  - name: stg_nj_001
+    description: ticket sales for theater NJ001
+    columns:
+      - name: movie_id
+        tests:
+          - not_null
+  - name: stg_nj_002
+    description: ticket sales for theater NJ002
+    columns:
+      - name: movie_id
+        tests:
+          - not_null
+  - name: stg_nj_003
+    description: ticket sales for theater NJ003
+    columns:
+      - name: movie_id
+        tests:
+          - not_null
+
 
 sources:
   - name: silverscreen
