@@ -55,9 +55,12 @@ The following steps were performed in dbt and executed on Snowflake:
 - Aggregated at a monthly level
 
 ### 4. **Final model**
-Created a final reporting model:  Joined Invoice and movie details to the location sales tables
+- Created a final reporting model  
+- Joined Invoice and movie details to the location sales tables
+- Created a unique row id using dbt_utils (see packages.yml)
 ✅ `fct_movie_monthly_performance`  
 Includes:
+- `unique_row_id`
 - `movie_id`
 - `movie_title`
 - `genre`

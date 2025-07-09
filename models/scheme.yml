@@ -185,6 +185,11 @@ models:
   - name: fct_movie_monthly_performance
     description: final table showing all movie info as well as costs and revenue per movie
     columns:
+      - name: unique_row_id
+        description: A unique row id, created using dbt_utils
+        tests:
+          - not_null
+          - unique
       - name: movie_id
         description: unique identifier for each movie
         tests:

@@ -5,6 +5,7 @@
 }}
 
 select 
+    {{ dbt_utils.generate_surrogate_key(['unt.movie_id', 'unt.location_id', 'unt.month']) }} as unique_row_id,
     unt.movie_id,
     movie_title,
     genre,
