@@ -14,49 +14,207 @@ models:
         description: title of the movie
         tests:
           - not_null
+      - name: release_date
+        description: release date of the movie 
+      - name: genre
+        description: Genre category (if null replaced with 'Unknown') 
+      - name: studio
+        description: studio that filmed the movie
+
   - name: stg_invoices
     description: invoices for 2024 per location, showing costs to rent film from studio
     columns:
       - name: movie_id
+        description: unique identifier for each movie
         tests:
           - not_null
+      - name: month
+        description: month of invoice for rental cost 
       - name: location_id
+        description: shows location of the cinema
         tests:
           - not_null
+      - name: weekly_rental_cost
+        description: the cost to rent the film for one week
+      - name: total_rental_cost
+        description: the cost to rent the movie for 1 month
+
   - name: stg_nj_001
-    description: ticket sales for theater NJ001
+    description: ticket sales for theater NJ_001
     columns:
+      - name: month
+        description: month of ticket sales
       - name: movie_id
+        description: unique identifier for each movie
         tests:
           - not_null
+      - name: tickets_sold
+        description: the actual number of tickets sold 
+      - name: ticket_price
+        description: cost of one ticket
+      - name: revenue
+        description: tickets sold * ticket_price (calculated in model as a check as well)
+        tests:
+          - revenue_non_negative_jinja
+      - name: location_id
+        description: theater location NJ_001 (col added so once unioned can see which location sales refer to)
+
   - name: stg_nj_002
-    description: ticket sales for theater NJ002
+    description: ticket sales for theater NJ_002
     columns:
+      - name: month
+        description: month of ticket sales
       - name: movie_id
+        description: unique identifier for each movie
         tests:
           - not_null
+      - name: tickets_sold
+        description: the actual number of tickets sold 
+      - name: ticket_price
+        description: cost of one ticket
+      - name: revenue
+        description: tickets sold * ticket_price (calculated in model as a check as well)
+        tests:
+          - revenue_non_negative_jinja
+      - name: location_id
+        description: theater location NJ_002 (col added so once unioned can see which location sales refer to)
+
   - name: stg_nj_003
-    description: ticket sales for theater NJ003
+    description: ticket sales for theater NJ003 (product type = 'ticket' as filter)
     columns:
+      - name: month
+        description: month of ticket sales
       - name: movie_id
+        description: unique identifier for each movie
         tests:
           - not_null
+      - name: tickets_sold
+        description: the actual number of tickets sold
+      - name: ticket_price
+        description: cost of one ticket
+      - name: revenue
+        description: tickets sold * ticket_price (calculated in model as a check as well)
+        tests:
+          - revenue_non_negative_jinja
+      - name: location_id
+        description: theater location NJ_003 (col added so once unioned can see which location sales refer to)
 
   # intermediate models
   - name: int_nj_001
     description: aggregates the stage level nj_001 table sales at monthly level
+    columns:
+      - name: month
+        description: month of ticket sales
+      - name: movie_id
+        description: unique identifier for each movie
+        tests:
+          - not_null
+      - name: location_id
+        description: theater location NJ_001
+      - name: tickets_sold
+        description: the actual number of tickets sold (aggregated to monthly level)
+      - name: revenue
+        description: revenue (aggregated to monthly level)
+
   - name: int_nj_002
     description: aggregates the stage level nj_002 table sales at monthly level
+    columns:
+      - name: month
+        description: month of ticket sales
+      - name: movie_id
+        description: unique identifier for each movie
+        tests:
+          - not_null
+      - name: location_id
+        description: theater location NJ_002
+      - name: tickets_sold
+        description: the actual number of tickets sold (aggregated to monthly level)
+      - name: revenue
+        description: revenue (aggregated to monthly level)
+
   - name: int_nj_003
     description: aggregates the stage level nj_003 table sales at monthly level 
+    columns:
+      - name: month
+        description: month of ticket sales
+      - name: movie_id
+        description: unique identifier for each movie
+        tests:
+          - not_null
+      - name: location_id
+        description: theater location NJ_003
+      - name: tickets_sold
+        description: the actual number of tickets sold (aggregated to monthly level)
+      - name: revenue
+        description: revenue (aggregated to monthly level)
+
   - name: union_nj_tables
-    description: unions all the nj tables together to creat one table showing all revenue
+    description: unions all the int_nj tables together to create one table showing all revenue for each mopnth per movie
+    columns:
+      - name: month
+        description: month of ticket sales
+      - name: movie_id
+        description: unique identifier for each movie
+        tests:
+          - not_null
+      - name: location_id
+        description: theater location
+      - name: tickets_sold
+        description: the actual number of tickets sold (aggregated to monthly level)
+      - name: revenue
+        description: revenue (aggregated to monthly level)
+
   - name: int_invoices
-    description: aggregates the invoices to monthly level 
+    description: aggregates the invoices to monthly level (15 rows were not summed up correctly in original staging table)
+    columns:
+      - name: movie_id
+        description: unique identifier for each movie
+        tests:
+          - not_null
+      - name: month
+        description: month of invoice for rental cost 
+      - name: location_id
+        description: shows location of the cinema
+        tests:
+          - not_null
+      - name: total_rental_cost
+        description: the cost to rent the movie for 1 month
+
 
   # mart model
   - name: final_cost_revenue_table
     description: final table showing all movie info as well as costs and revenue per movie
+    columns:
+      - name: movie_id
+        description: unique identifier for each movie
+        tests:
+          - not_null
+      - name: movie_title
+        description: title of the movie
+        tests:
+          - not_null
+      - name: genre
+        description: Genre category 
+        tests:
+          - accepted_values:
+              values: ['Animation', 'Action', 'Comedy', 'Horror', 'Unknown', 'Thriller', 'Fantasy', 'Sci-Fi', 'Drama']
+      - name: studio
+        description: studio that filmed the movie
+      - name: month
+        description: month relating to the cost and revenue for the movie
+      - name: location_id
+        description: shows location of the cinema
+        tests:
+          - not_null
+      - name: total_rental_cost
+        description: the cost to rent the movie from studio
+      - name: total_tickets_sold
+        description: the actual number of tickets sold 
+      - name: total_revenue
+        description: revenue received
+      - name: profit
+        description: the revenue received less the cost to hire the movie (not 100% profit as not including other costs cinema would have to run daily)
+
 
 sources:
   - name: silverscreen
