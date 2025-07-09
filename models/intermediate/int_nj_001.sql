@@ -6,4 +6,3 @@ select
     sum(revenue) as revenue
 from {{ ref('stg_nj_001') }}
 group by month, movie_id, location_id
-order by month

@@ -22,5 +22,5 @@ left join {{ ref('int_invoices') }} as inv
     and unt.location_id = inv.location_id
 left join {{ ref('stg_movie_cat') }} as mov
 on unt.movie_id = mov.movie_id
-order by unt.location_id, unt.month, unt.movie_id
+
 
