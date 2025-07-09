@@ -55,7 +55,7 @@ models:
       - name: revenue
         description: tickets sold * ticket_price (calculated in model as a check as well)
         tests:
-          - revenue_non_negative_jinja
+          - revenue_non_negative
       - name: location_id
         description: theater location NJ_001 (col added so once unioned can see which location sales refer to)
 
@@ -75,7 +75,7 @@ models:
       - name: revenue
         description: tickets sold * ticket_price (calculated in model as a check as well)
         tests:
-          - revenue_non_negative_jinja
+          - revenue_non_negative
       - name: location_id
         description: theater location NJ_002 (col added so once unioned can see which location sales refer to)
 
@@ -95,7 +95,7 @@ models:
       - name: revenue
         description: tickets sold * ticket_price (calculated in model as a check as well)
         tests:
-          - revenue_non_negative_jinja
+          - revenue_non_negative
       - name: location_id
         description: theater location NJ_003 (col added so once unioned can see which location sales refer to)
 
@@ -182,7 +182,7 @@ models:
 
 
   # mart model
-  - name: final_cost_revenue_table
+  - name: fct_movie_monthly_performance
     description: final table showing all movie info as well as costs and revenue per movie
     columns:
       - name: movie_id
