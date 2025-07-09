@@ -92,3 +92,84 @@ A custom test was created to ensure **rental cost is never negative**:
 select month, total_rental_cost
 from {{ ref("final_cost_revenue_table") }}
 where total_rental_cost < 0
+
+````
+## 🧠 Insights & Usage
+
+This project helps stakeholders understand the **financial performance** of each movie per theater location per month by combining revenue from ticket sales with rental costs.
+
+Key use cases include:
+
+- 📊 **Profitability Tracking**  
+  Track monthly profitability per movie and location by comparing rental costs to revenue.
+
+- 🏢 **Location Performance Comparison**  
+  Identify which of the three NJ theaters is generating the most revenue or has the best cost-to-income ratio.
+
+- 🎥 **Movie-Level Insights**  
+  Evaluate which movie genres or studios are most profitable to inform future rental decisions.
+
+- 📆 **Time-Based Trends**  
+  Analyze revenue and rental costs across months to detect seasonality or performance spikes.
+
+- 📉 **Operational Efficiency**  
+  Understand underperforming locations or movies with high rental costs but low ticket sales.
+
+---
+
+## 🧰 Tools & Technologies
+
+This project used the following technologies:
+
+| Tool | Purpose |
+|------|---------|
+| **dbt (Data Build Tool)** | Data transformation, modeling, and testing |
+| **Snowflake** | Cloud-based data warehouse to store and query data |
+| **SQL** | Used in dbt models to transform and analyze data |
+| **Git** | Version control for tracking model and test changes |
+| **Tableau** *(optional)* | For creating dashboards to visualize revenue and rental trends |
+
+## 🧪 Sample dbt Commands
+
+To execute the project in dbt, use the following commands:
+
+```bash
+# Compile and run all models
+dbt run
+
+# Run all tests (including custom tests)
+dbt test
+
+# Optionally, check model dependencies
+dbt deps
+
+# Complete build in Snowflake
+dbt build
+
+```
+
+## 🚀 Next Steps
+
+Potential improvements and future enhancements for this project:
+
+- 📊 **Build Visual Dashboards**  
+  Use Tableau or Looker to create interactive dashboards that highlight key insights.
+
+- 🍿 **Incorporate Concessions Sales**  
+  Add snack and drink revenue from `nj_003` and ask 2 other locations for more detailed data, for a fuller picture of total earnings.
+
+- 🎯 **ROI Analysis**  
+  Calculate return on investment (ROI) per movie, studio, or genre to support purchasing decisions.
+
+- ⏱️ **Trend Analysis**  
+  Evaluate monthly and seasonal trends across locations and movie types.
+
+---
+
+## 👤 Author
+
+**Bianca Niemann**  
+BI Analyst | Data Analytics Bootcamp (Soon to be)Graduate
+
+📧 payrollsollutions@gmail.com
+🔗 [LinkedIn](https://www.linkedin.com/in/bianca-niemann)
